@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import ConversationTranscript from "./ConversationTranscript";
 
 interface Persona {
   id: string;
@@ -272,9 +273,7 @@ export default function CustomerPersonaSimulator({ transcript }: CustomerPersona
                       <span className="text-[9px] text-text-muted font-normal">scrollable</span>
                     </h4>
                     <div className="flex-1 overflow-y-auto pr-1">
-                      <pre className="text-xs font-mono text-text-primary whitespace-pre-wrap leading-relaxed">
-                        {simulationResult.simulated_conversation}
-                      </pre>
+                      <ConversationTranscript transcript={simulationResult.simulated_conversation} />
                     </div>
                   </div>
                 </div>

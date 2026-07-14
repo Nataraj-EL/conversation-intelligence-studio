@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import ConversationTranscript from "./ConversationTranscript";
 
 interface SamplePreset {
   id: string;
@@ -333,28 +334,24 @@ export default function AIConversationAnalyzer({
                 <div className="lg:col-span-7 flex flex-col gap-6">
                   
                   {/* Original Conversation Card */}
-                  <div className="border border-border-subtle bg-bg-base/10 rounded-xl p-5 flex flex-col h-[230px]">
+                  <div className="border border-border-subtle bg-bg-base/10 rounded-xl p-5 flex flex-col h-[280px]">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-text-secondary font-mono mb-3 shrink-0 flex items-center justify-between">
                       <span>Original Conversation Transcript</span>
                       <span className="text-[9px] text-text-muted font-normal">scrollable</span>
                     </h4>
                     <div className="flex-1 overflow-y-auto pr-1">
-                      <pre className="text-xs font-mono text-text-secondary whitespace-pre-wrap leading-relaxed">
-                        {sharedTranscript}
-                      </pre>
+                      <ConversationTranscript transcript={sharedTranscript} />
                     </div>
                   </div>
 
-                  {/* Improved Conversation Card (Success Semantic) */}
-                  <div className="border border-success/20 bg-success/5 rounded-xl p-5 flex flex-col h-[230px]">
+                  {/* Improved Conversation Card (Success Semantic tag, neutral bubbles) */}
+                  <div className="border border-border-subtle bg-bg-base/10 rounded-xl p-5 flex flex-col h-[280px]">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-success font-mono mb-3 shrink-0 flex items-center justify-between">
                       <span>Simulated Improved Transcript</span>
                       <span className="text-[9px] text-success/60 font-normal">scrollable</span>
                     </h4>
                     <div className="flex-1 overflow-y-auto pr-1">
-                      <pre className="text-xs font-mono text-success whitespace-pre-wrap leading-relaxed">
-                        {analysisResult.improved_conversation}
-                      </pre>
+                      <ConversationTranscript transcript={analysisResult.improved_conversation} />
                     </div>
                   </div>
 

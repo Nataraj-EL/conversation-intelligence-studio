@@ -34,6 +34,16 @@
     --foreground: #261E1A;
   }
 
+  ::selection {
+    background-color: rgba(161, 70, 28, 0.18);
+    color: inherit;
+  }
+
+  ::-moz-selection {
+    background-color: rgba(161, 70, 28, 0.18);
+    color: inherit;
+  }
+
   body {
     background-color: var(--background);
     color: var(--foreground);

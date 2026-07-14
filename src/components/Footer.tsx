@@ -36,7 +36,7 @@ export default function Footer() {
 
         <div className="border-t border-border-subtle mt-8 pt-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="text-xs text-text-muted">
-            &copy; {new Date().getFullYear()} Conversation Intelligence Studio. All rights reserved.
+            &copy; 2026 Conversation Intelligence Studio. All rights reserved.
           </p>
           <p className="text-[10px] text-text-muted/60 tracking-wider uppercase font-mono">
             Sprint 1 Production Build

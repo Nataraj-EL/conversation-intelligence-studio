@@ -1,5 +1,7 @@
 import os
 import json
+import logging
+import traceback
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -9,6 +11,10 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("backend")
 
 app = FastAPI(title="Conversation Intelligence Studio API", version="0.1.0")
 
@@ -106,11 +112,15 @@ async def analyze_conversation(payload: AnalysisRequest):
         return result_dict
 
     except json.JSONDecodeError as jde:
+        logger.error("Failed to parse Gemini output as JSON: %s", str(jde))
+        logger.error(traceback.format_exc())
         raise HTTPException(
             status_code=502,
             detail=f"Failed to parse Gemini output as JSON: {str(jde)}"
         )
     except Exception as e:
+        logger.error("Failed to analyze conversation with Gemini: %s", str(e))
+        logger.error(traceback.format_exc())
         raise HTTPException(
             status_code=500,
             detail=f"Failed to analyze conversation with Gemini: {str(e)}"
@@ -162,11 +172,15 @@ async def simulate_persona_conversation(payload: SimulationRequest):
         return result_dict
 
     except json.JSONDecodeError as jde:
+        logger.error("Failed to parse Gemini simulation output as JSON: %s", str(jde))
+        logger.error(traceback.format_exc())
         raise HTTPException(
             status_code=502,
             detail=f"Failed to parse Gemini simulation output as JSON: {str(jde)}"
         )
     except Exception as e:
+        logger.error("Failed to simulate conversation: %s", str(e))
+        logger.error(traceback.format_exc())
         raise HTTPException(
             status_code=500,
             detail=f"Failed to simulate conversation: {str(e)}"

@@ -1,26 +1,141 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-bg-base: #070509;
+  --color-bg-surface: #100d16;
+  --color-bg-surface-hover: #171321;
+  --color-border-subtle: rgba(255, 255, 255, 0.05);
+  --color-border-focus: rgba(168, 85, 247, 0.5);
+  
+  --color-brand-purple: #8b5cf6;
+  --color-brand-indigo: #6366f1;
+  --color-brand-blue: #3b82f6;
+  --color-brand-peach: #fda4af; /* warm rose-peach accent */
+  
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+  
+  --animate-pulse-slow: pulse-slow 12s infinite alternate;
+  --animate-glow-spin: glow-spin 8s linear infinite;
+  --animate-shimmer: shimmer 2s infinite;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  @keyframes pulse-slow {
+    0% { opacity: 0.15; transform: scale(1); }
+    100% { opacity: 0.35; transform: scale(1.1); }
+  }
+  @keyframes glow-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes shimmer {
+    100% { transform: translateX(100%); }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Layer & Base Setup */
+@layer base {
+  :root {
+    color-scheme: dark;
+    --background: #070509;
+    --foreground: #f8fafc;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Custom subtle scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #0a080f;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #1f1a29;
+    border-radius: 9999px;
+    border: 2px solid #0a080f;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #312a3f;
+  }
+}
+
+/* Utilities for Premium Glassmorphism & Visuals */
+@utility glass-panel {
+  background: rgba(16, 13, 22, 0.6);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+
+@utility glass-card {
+  background: rgba(22, 19, 32, 0.45);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@utility glass-card-hover {
+  border-color: rgba(168, 85, 247, 0.2);
+  box-shadow: 0 15px 45px rgba(139, 92, 246, 0.1);
+  transform: translateY(-2px);
+}
+
+@utility glow-container {
+  position: relative;
+  isolation: isolate;
+}
+
+@utility glow-bg {
+  position: absolute;
+  filter: blur(100px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* @starting-style Entry Transition Classes for Demo Simulations */
+.reveal-entry {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@starting-style {
+  .reveal-entry {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+/* Shimmer Loading Effect */
+.shimmer-bg {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.shimmer-bg::after {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.03) 20%,
+    rgba(255, 255, 255, 0.07) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 1.8s infinite;
+  content: '';
 }

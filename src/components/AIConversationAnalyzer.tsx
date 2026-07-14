@@ -50,9 +50,15 @@ const LOADING_TEXTS = [
   "Formatting improved agent path..."
 ];
 
-export default function AIConversationAnalyzer() {
-  const [selectedSample, setSelectedSample] = useState<SamplePreset>(SAMPLE_PRESETS[0]);
-  const [customTranscript, setCustomTranscript] = useState<string>("");
+interface AIConversationAnalyzerProps {
+  sharedTranscript: string;
+  setSharedTranscript: (val: string) => void;
+}
+
+export default function AIConversationAnalyzer({
+  sharedTranscript,
+  setSharedTranscript
+}: AIConversationAnalyzerProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "analyzed">("idle");
   const [loadingStep, setLoadingStep] = useState(0);
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
@@ -82,8 +88,7 @@ export default function AIConversationAnalyzer() {
     setStatus("loading");
     setLoadingStep(0);
 
-    const startTime = Date.now();
-    const transcriptText = customTranscript || selectedSample.transcript;
+    const transcriptText = sharedTranscript;
 
     try {
       const response = await fetch("/api/analyze", {
@@ -102,15 +107,8 @@ export default function AIConversationAnalyzer() {
       }
 
       const data: AnalysisResult = await response.json();
-
-      // Enforce a minimum display of 1.2s of loading animation to keep visual sweep clean
-      const elapsedTime = Date.now() - startTime;
-      const remainingTime = Math.max(0, 1200 - elapsedTime);
-
-      setTimeout(() => {
-        setAnalysisResult(data);
-        setStatus("analyzed");
-      }, remainingTime);
+      setAnalysisResult(data);
+      setStatus("analyzed");
 
     } catch (err: unknown) {
       console.error(err);
@@ -121,8 +119,7 @@ export default function AIConversationAnalyzer() {
   };
 
   const handleSelectSample = (sample: SamplePreset) => {
-    setSelectedSample(sample);
-    setCustomTranscript("");
+    setSharedTranscript(sample.transcript);
     setStatus("idle");
     setError(null);
   };
@@ -148,7 +145,7 @@ export default function AIConversationAnalyzer() {
               key={preset.id}
               onClick={() => handleSelectSample(preset)}
               className={`rounded-xl px-5 py-3 text-sm font-semibold border transition-all duration-200 cursor-pointer ${
-                selectedSample.id === preset.id && !customTranscript
+                sharedTranscript === preset.transcript
                   ? "bg-brand-purple/10 border-brand-purple text-white shadow-md shadow-brand-purple/5"
                   : "bg-bg-surface border-border-subtle text-text-secondary hover:text-white hover:border-white/20"
               }`}
@@ -183,11 +180,10 @@ export default function AIConversationAnalyzer() {
                   <span className="h-2 w-2 rounded-full bg-brand-purple animate-ping" />
                   Conversation Input Panel
                 </span>
-                {(customTranscript || selectedSample.transcript !== SAMPLE_PRESETS[0].transcript) && (
+                {sharedTranscript !== SAMPLE_PRESETS[0].transcript && (
                   <button
                     onClick={() => {
-                      setCustomTranscript("");
-                      setSelectedSample(SAMPLE_PRESETS[0]);
+                      setSharedTranscript(SAMPLE_PRESETS[0].transcript);
                       setError(null);
                     }}
                     className="text-xs text-text-muted hover:text-white transition-colors"
@@ -206,9 +202,9 @@ export default function AIConversationAnalyzer() {
                   rows={9}
                   className="w-full rounded-xl bg-bg-base/60 border border-border-subtle p-4 text-sm text-white placeholder-text-muted focus:border-brand-purple/80 focus:ring-1 focus:ring-brand-purple/80 focus:outline-none transition-all font-mono"
                   placeholder="Paste human-to-AI transcript here..."
-                  value={customTranscript || selectedSample.transcript}
+                  value={sharedTranscript}
                   onChange={(e) => {
-                    setCustomTranscript(e.target.value);
+                    setSharedTranscript(e.target.value);
                   }}
                 />
               </div>
@@ -343,7 +339,7 @@ export default function AIConversationAnalyzer() {
                     </h4>
                     <div className="flex-1 overflow-y-auto pr-1">
                       <pre className="text-xs font-mono text-text-secondary whitespace-pre-wrap leading-relaxed">
-                        {customTranscript || selectedSample.transcript}
+                        {sharedTranscript}
                       </pre>
                     </div>
                   </div>

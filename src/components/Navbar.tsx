@@ -11,11 +11,6 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2.5">
-            <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-brand-primary shadow-sm">
-              {/* Central dot icon */}
-              <div className="h-2 w-2 rounded-full bg-white" />
-              <div className="absolute inset-0 rounded-xl border border-white/10" />
-            </div>
             <span className="font-sans text-lg font-semibold tracking-tight text-text-primary sm:text-xl">
               Conversation Intelligence <span className="text-brand-primary">Studio</span>
             </span>

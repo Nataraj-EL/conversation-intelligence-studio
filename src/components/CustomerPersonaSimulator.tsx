@@ -144,10 +144,10 @@ export default function CustomerPersonaSimulator({ transcript }: CustomerPersona
                 key={persona.id}
                 onClick={() => handleSimulate(persona)}
                 disabled={status === "loading"}
-                className={`glass-card rounded-2xl p-5 text-left flex flex-col justify-between h-[180px] hover:glass-card-hover transition-all duration-150 cursor-pointer ${
+                className={`border border-border-subtle bg-bg-surface shadow-sm rounded-2xl p-5 text-left flex flex-col justify-between h-[180px] hover:border-brand-primary hover:shadow-md transition-all duration-150 cursor-pointer ${
                   isSelected
-                    ? "border-brand-primary ring-1 ring-brand-primary bg-brand-primary/5 shadow-sm"
-                    : "border-border-subtle"
+                    ? "border-brand-primary ring-1 ring-brand-primary bg-brand-primary/5"
+                    : ""
                 }`}
               >
                 <div>
@@ -173,7 +173,7 @@ export default function CustomerPersonaSimulator({ transcript }: CustomerPersona
         </div>
 
         {/* Display Banner / Output */}
-        <div className="glass-card rounded-2xl p-6 md:p-8 relative overflow-hidden">
+        <div className="border border-border-subtle bg-bg-surface shadow-sm rounded-2xl p-6 md:p-8 relative overflow-hidden">
           
           {error && (
             <div className="rounded-xl border border-error/20 bg-error/5 px-4 py-3.5 text-sm text-error flex items-start gap-3">

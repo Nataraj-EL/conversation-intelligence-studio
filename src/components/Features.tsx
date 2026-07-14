@@ -54,7 +54,7 @@ export default function Features() {
           {items.map((item, idx) => (
             <div
               key={idx}
-              className="glass-card hover:glass-card-hover rounded-2xl p-6 md:p-8 flex flex-col md:flex-row gap-5 items-start"
+              className="border border-border-subtle bg-bg-surface shadow-sm hover:border-brand-primary hover:shadow-md rounded-2xl p-6 md:p-8 flex flex-col md:flex-row gap-5 items-start transition-all duration-150"
             >
               {/* Icon container */}
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-bg-surface-hover border border-border-subtle shrink-0 shadow-sm">

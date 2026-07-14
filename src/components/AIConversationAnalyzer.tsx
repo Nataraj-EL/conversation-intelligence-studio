@@ -157,7 +157,7 @@ export default function AIConversationAnalyzer({
         </div>
 
         {/* Main Interface Block */}
-        <div className="glass-card rounded-2xl p-6 md:p-8 relative overflow-hidden">
+        <div className="border border-border-subtle bg-bg-surface shadow-sm rounded-2xl p-6 md:p-8 relative overflow-hidden">
           
           {/* Error Message banner */}
           {error && (

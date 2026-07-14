@@ -6,7 +6,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 w-full glass-panel border-b border-border-subtle bg-bg-base/90 backdrop-blur-md">
+    <nav className="sticky top-0 z-50 w-full border-b border-border-subtle bg-bg-surface">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
@@ -62,7 +62,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       {isMobileMenuOpen && (
-        <div id="mobile-menu" className="md:hidden border-b border-border-subtle bg-bg-base/95 px-4 pt-2 pb-6 space-y-4">
+        <div id="mobile-menu" className="md:hidden border-b border-border-subtle bg-bg-surface shadow-sm px-4 pt-2 pb-6 space-y-4">
           <div className="flex flex-col gap-4">
             <a
               href="#analyzer"

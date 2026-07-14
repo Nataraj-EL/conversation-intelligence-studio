@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Conversation Intelligence Studio
 
-## Getting Started
+An advanced, warm-minimal visual sandbox designed to audit, analyze, and stress-test customer service AI conversations using Google Gemini models.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠️ Local Development
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 1. Backend (FastAPI)
+1. Navigate to the `backend` folder:
+   ```bash
+   cd backend
+   ```
+2. Create and activate a Python virtual environment:
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Create a `.env` file and define your API key:
+   ```env
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+5. Run the server:
+   ```bash
+   python main.py
+   # OR
+   uvicorn main:app --port 8000 --reload
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 2. Frontend (Next.js)
+1. Install dependencies from the project root:
+   ```bash
+   npm install
+   ```
+2. Launch the dev client:
+   ```bash
+   npm run dev
+   ```
+3. Open `http://localhost:3000` to view the application.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🚀 Render Deployment Instructions
 
-To learn more about Next.js, take a look at the following resources:
+This repository is optimized to deploy the Next.js frontend and the FastAPI backend as **separate services** on [Render](https://render.com).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 1. Backend Service (FastAPI Web Service)
+1. In the Render Dashboard, click **New +** and select **Web Service**.
+2. Connect your GitHub repository.
+3. Configure the service:
+   * **Name**: `conversation-intelligence-backend`
+   * **Language**: `Python`
+   * **Root Directory**: `backend`
+   * **Build Command**: `pip install -r requirements.txt`
+   * **Start Command**: `uvicorn main:app --host 0.0.0.0 --port $PORT`
+4. Add the following **Environment Variables**:
+   * `GEMINI_API_KEY`: *(Your Google AI Studio Gemini API Key)*
+5. Click **Deploy Web Service**. Copy the generated URL (e.g. `https://conversation-intelligence-backend.onrender.com`).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 2. Frontend Service (Next.js Static Site or Web Service)
 
-## Deploy on Vercel
+#### Option A: Deploy as a Static Site (Recommended & Cost-Efficient)
+1. Click **New +** and select **Static Site**.
+2. Connect your GitHub repository.
+3. Configure the service:
+   * **Name**: `conversation-intelligence-studio`
+   * **Build Command**: `npm run build`
+   * **Publish Directory**: `out`
+4. Add the following **Environment Variables**:
+   * `NEXT_PUBLIC_API_URL`: `https://conversation-intelligence-backend.onrender.com` *(pointing to your backend URL)*
+5. Click **Deploy Static Site**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+*Note: For Static Site exports, ensure you configure `output: 'export'` inside `next.config.ts` if exporting static files, or use Option B below.*
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### Option B: Deploy as a Node.js Web Service (Full SSR)
+1. Click **New +** and select **Web Service**.
+2. Connect your GitHub repository.
+3. Configure the service:
+   * **Name**: `conversation-intelligence-studio-ssr`
+   * **Language**: `Node`
+   * **Build Command**: `npm run build`
+   * **Start Command**: `npm run start`
+4. Add the following **Environment Variables**:
+   * `NEXT_PUBLIC_API_URL`: `https://conversation-intelligence-backend.onrender.com` *(pointing to your backend URL)*
+5. Click **Deploy Web Service**.

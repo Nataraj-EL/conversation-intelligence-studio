@@ -189,3 +189,8 @@ async def simulate_persona_conversation(payload: SimulationRequest):
 @app.get("/api/health")
 async def health_check():
     return {"status": "ok", "api_key_configured": bool(os.getenv("GEMINI_API_KEY"))}
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.getenv("PORT", "8000"))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)

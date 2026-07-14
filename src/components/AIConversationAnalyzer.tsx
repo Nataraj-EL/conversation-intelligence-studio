@@ -92,7 +92,8 @@ export default function AIConversationAnalyzer({
     const transcriptText = sharedTranscript;
 
     try {
-      const response = await fetch("/api/analyze", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
+      const response = await fetch(`${apiUrl}/api/analyze`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -93,7 +93,8 @@ export default function CustomerPersonaSimulator({ transcript }: CustomerPersona
     setLoadingStep(0);
 
     try {
-      const response = await fetch("/api/simulate-persona", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
+      const response = await fetch(`${apiUrl}/api/simulate-persona`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
